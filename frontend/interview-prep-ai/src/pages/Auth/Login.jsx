@@ -48,8 +48,6 @@ export const Login = ({setCurrentPage}) => {
         </button>
       </p>
 
-      
-
     </form>
   </div>
 }

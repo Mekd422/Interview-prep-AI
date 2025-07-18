@@ -12,7 +12,8 @@ export const Input = ({value, onChange,label, placeholder, type}) => {
     <label className='text-[13px] text-slate-800'>{label}</label>
         <div className='input-box'>
             <input type={
-                type  == "password" ? {showPassword ? "text" : "password"} : type
+                type  === "password" ? 
+                (showPassword ? "text" : "password") : type
             } 
             placeholder={placeholder}
             className='w-full bg-transparnt outline-none'

@@ -11,15 +11,17 @@ export const LandingPage = () => {
 
   const navigate = useNavigate();
 
-  const [openAutModel, setOpenAuthModal] = useState(false);
-  const [currentPage, setCurrentPagwe] = useState("login");
+  const [openAuthModel, setOpenAuthModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState("login");
+
+  console.log(navigate, openAuthModel, currentPage, setCurrentPage);
 
   const handleCTA = () =>{};
   return (
 
     <>
       <div className='w-full min-h-full bg-[#FFFCEF] '>
-        <div className='w-[500px] h-[500px] bg-amber-200/20 blur-[65px] absolute top-0 left '>
+        <div className='w-[500px] h-[500px] bg-amber-200/20 blur-[65px] absolute top-0 left-0 '>
           <div className='container mx-auto px-4 pt-6 pb-[200px] relative z-10 '>
             {/*header*/ }
             <header className='flex justify-between items-center mb-16' >
@@ -91,33 +93,38 @@ export const LandingPage = () => {
                   {APP_FEATURES.slice(0,3).map((feature) =>(
                     <div
                     key={feature.id}
-                    className=''>
-                      <h3 className=''>
+                    className='bg-[#FFFCEF] p-6 rounded-xl shadow-xs hover:shadow-lg shadow-amber-100 transition border border-amber-100'>
+                      <h3 className='text-base font-semibold mb-3'>
                         {feature.title}
                       </h3>
-                      <p className=''>{feature.description}</p>
-                    <div/>
+                      <p className='text-gray-600'>{feature.description}</p>
+                    </div>
 
                   ))}
-
-                </div>
+              </div>
+              </div>
+              
 
                 {/*remaining 2 cards */}
 
-                <div>
-                  {APP_FEATURES.slice(0,3).map((feature) =>(
-                    <div>
-                      <h3>
+                <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
+                  {APP_FEATURES.slice(3).map((feature) =>(
+                    <div
+                    key={feature.id}
+                    className='bg-[#FFFEF8] p-6 rounded-xl shadow-xs hover:shadow-lg shadow-amber-100 transition border border-amber-100 '
+                    >
+                      <h3 className='text-base font-semibold mb-3'>
                         {feature.title}
                       </h3>
-                      <p>{feature.description}</p>
-                    <div/>
+                      <p className='text-gray-600'>{feature.description}</p>
+                    </div>
 
                   ))}
                 </div>
                 
-              </div>
-            </section>
+             
+             </section>
+            
           </div>
         </div>
 
@@ -127,3 +134,4 @@ export const LandingPage = () => {
     
   )
 }
+export default LandingPage;

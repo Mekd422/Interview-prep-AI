@@ -86,7 +86,7 @@
 }
 
 .btn-primary{
-  @apply w-full items-center justify-center gap-3 text-sm font-medium text-white bg-black shadow-lg shadow-orange-600/5 p-[10px] rounded-md my-1 hover:bg-orange-600/15 hover:text--black cursor-pointer;
+  @apply w-full items-center justify-center gap-3 text-sm font-medium text-white bg-black shadow-lg shadow-orange-600/5 p-[10px] rounded-md my-1 hover:bg-orange-600/15 hover:text-black cursor-pointer;
 }
 
 .btn-small{

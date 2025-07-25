@@ -1,15 +1,18 @@
 import React, {useState} from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Input } from '../../components/Inputs/Input';
+import { ProfilePhotoSelector } from '../../components/Inputs/ProfilePhotoSelector';
 
 export const SignUp = () => {
   const [profilePic, setProfilePic] = useState(null);
   const [fullName, setFullName] = useState("");
-  const [email, setEmail] = .useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  console.log(setError)
 
   const navigate = useNavigate();
+  console.log(navigate)
 
   // handle signup form submit
   const handleSignUp = async (e) => {
@@ -62,7 +65,7 @@ export const SignUp = () => {
         <button
         className='font-medium text-primary underline cursor-pointer'
         onClick={() => {
-          setCurrentPage("login");
+          
         }}> 
           
           Login

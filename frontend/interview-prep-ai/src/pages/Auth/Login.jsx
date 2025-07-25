@@ -1,13 +1,16 @@
 import React, {useState} from 'react'
 import { useNavigate } from 'react-router-dom';
+import { Input } from '../../components/Inputs/Input';
 
 export const Login = ({setCurrentPage}) => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(""); 
+  console.log(setError)
 
   const navigate = useNavigate();
+  console.log(navigate)
 
   //handle login
   const handleLogin = async (e) => {

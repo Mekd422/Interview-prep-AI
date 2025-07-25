@@ -3,6 +3,11 @@ import HERO_IMG from '../assets/hero-img.png'
 import {APP_FEATURES} from '../utils/data'
 import { useNavigate } from 'react-router-dom';
 import {LuSparkles} from 'react-icons/lu'
+import { Modal } from '../components/Modal';
+import { Login } from './Auth/Login';
+import { SignUp } from './Auth/SignUp';
+
+
 
 
 
@@ -21,7 +26,7 @@ export const LandingPage = () => {
 
     <>
       <div className='w-full min-h-full bg-[#FFFCEF] '>
-        <div className='w-[500px] h-[500px] bg-amber-200/20 blur-[65px] absolute top-0 left-0 '>
+        <div className='w-[500px] h-[500px] bg-amber-200/20 blur-[65px] absolute top-0 left-0 '></div>
           <div className='container mx-auto px-4 pt-6 pb-[200px] relative z-10 '>
             {/*header*/ }
             <header className='flex justify-between items-center mb-16' >
@@ -67,7 +72,7 @@ export const LandingPage = () => {
               </div>
             </div>
           </div>
-        </div>
+        
       </div>
 
       <div className='w-full min-h-full relative z-10 mb-56 '>

@@ -29,6 +29,7 @@ app.use("/api/auth", authRoutes);
 
 
 
+
 //server uploads folder
 app.use("/uploads", express.static(path.join(__dirname, "uploads"), {}));
 

@@ -53,12 +53,39 @@ const registerUser = async (req, res) => {
 // route: POST /api/auth/login
 // access: Public
 const loginUser = async (req, res) => {
+
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+
+    if(!user) {
+        return res.status(400).json({ message: "Invalid email or password" });
+    }
+
+    // check password
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+    if(!isPasswordMatch) {
+        return res.status(400).json({ message: "Invalid email or password" });
+    }
+    // return user data and token
+    res.status(200).json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        profileImageUrl: user.profileImageUrl,
+        token: generateToken(user._id)
+    });
+
+
+    res.status(500).json({ message: "Server error", error: error.message });
+
 };
 
 // get user profile
 // route: GET /api/auth/profile
 // access: Private
 const getUserProfile = async (req, res) => {
+    res.status(500).json({ message: "Server error", error: error.message });
+
 };
 
 module.exports = {

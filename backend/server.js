@@ -19,6 +19,8 @@ app.use(express.json());
 
 //routes
 
+
+
 //server uploads folder
 app.use("/uploads", express.static(path.join(__dirname, "uploads"), {}));
 

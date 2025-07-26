@@ -4,6 +4,7 @@ const cors = require("cors");
 const path = require("path");
 const { connect } = require("http2");
 const connectDB = require("./config/db");
+const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
@@ -22,6 +23,9 @@ connectDB();
 app.use(express.json());
 
 //routes
+
+app.use("/api/auth", authRoutes);
+
 
 
 

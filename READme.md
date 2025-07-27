@@ -17,5 +17,5 @@ Interview Prep AI is a smart, interactive platform designed to help job seekers 
 - **Backend:** Node.js / Express
 - **Database:** MongoDB
 - **AI Integration:** OpenAI GPT 
-- **Authentication:** JWT 
+- **Authentication:** JWT /OAuth
 - **Deployment:** --

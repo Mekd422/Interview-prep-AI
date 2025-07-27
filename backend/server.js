@@ -5,6 +5,7 @@ const path = require("path");
 const { connect } = require("http2");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
+const sessionsRoutes = require("./routes/sessionRoutes");
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use(express.json());
 //routes
 
 app.use("/api/auth", authRoutes);
+app.use("/api/sessions", sessionsRoutes);
 
 
 

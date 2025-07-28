@@ -23,7 +23,7 @@ exports.createSession = async (req, res) => {
 
         const questionDocs = await Promise.all(
             questions.map(async (q) => {
-                const question = await Question.create({
+                return await Question.create({
                     session: session._id,
                     question: q.question,
                     answer: q.answer
@@ -46,7 +46,10 @@ exports.createSession = async (req, res) => {
 // access: Private
 exports.getMySessions = async (req, res) => {
     try {
+        const sessions = await Session.find({user: req.user.id})
+        .sort({createdAt: -1})
         
+        res.status(200).json(sessions);
     } catch (error) {
         res.status(500).json({ message: "Server error", success: false });
     }
@@ -57,11 +60,7 @@ exports.getMySessions = async (req, res) => {
 // access: Private
 exports.getSessionById = async (req, res) => {
     try {
-        const session = await Session.findById(req.params.id).populate("questions");
-        if (!session) {
-            return res.status(404).json({ message: "Session not found" });
-        }
-        res.status(200).json(session);
+        
     } catch (error) {
         res.status(500).json({ message: "Server error", success: false });
     }

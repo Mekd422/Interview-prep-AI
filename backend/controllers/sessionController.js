@@ -1,5 +1,6 @@
 const Session = require("../models/Session");
 const Question = require("../models/Question");
+const user = require("../models/user");
 
 
 // create a new session and linked questions
@@ -7,7 +8,34 @@ const Question = require("../models/Question");
 // access: Private
 exports.createSession = async (req, res) => {
     try {
+        const {role, experience, topicsToFocus, description, questions} = req.body;
+        const userId = req.user._id;
+
         
+
+        const session = await Session.create({
+            user: userId,
+            role,
+            experience,
+            topicsToFocus,
+            description
+        });
+
+        const questionDocs = await Promise.all(
+            questions.map(async (q) => {
+                const question = await Question.create({
+                    session: session._id,
+                    question: q.question,
+                    answer: q.answer
+                })
+            })
+        )
+
+        session.questions = questionDocs;
+        await session.save();
+
+        res.status(201).json({success: true, session});
+
     } catch (error) {
         res.status(500).json({ message: "Server error", success: false });
     }

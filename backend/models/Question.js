@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 
 const questionSchema = new mongoose.Schema({
     session: { type: mongoose.Schema.Types.ObjectId, ref: 'Session' },
-    question: string,
-    answer: string,
+    question: String,
+    answer: String,
     note: String,
     isPinned: { type: Boolean, default: false }},
     { timestamps: true }

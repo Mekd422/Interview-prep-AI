@@ -5,7 +5,7 @@ const Question = require("../models/Question");
 // create a new session and linked questions
 // route: POST /api/sessions/create
 // access: Private
-exports.createSessionsc = async (req, res) => {
+exports.createSessions = async (req, res) => {
     try {
         
     } catch (error) {

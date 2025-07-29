@@ -6,6 +6,7 @@ const { connect } = require("http2");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const sessionsRoutes = require("./routes/sessionRoutes");
+const questionRoutes = require("./routes/questionRoutes")
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/sessions", sessionsRoutes);
+app.use("api/questions", questionRoutes);
 
 
 

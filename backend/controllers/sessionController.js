@@ -91,14 +91,14 @@ exports.deleteSession = async (req, res) => {
 
         // check if teh logged in user owns this session
         if(session.user.toString() !== req.user.id) {
-            return res.status(401).json({message: "not auth"})
+            return res.status(401).json({message: "not authorized to delete this session"})
         }
         
-        // delete linked questions
+        // first, delete all linked questions
         await Question.deleteMany({ session: session._id });
         
-        // delete session
-        await session.remove();
+        // then, delete session
+        await session.deleteOne();
         
         res.status(200).json({ message: "Session deleted successfully" });
     } catch (error) {

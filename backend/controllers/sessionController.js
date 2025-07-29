@@ -44,11 +44,12 @@ exports.createSession = async (req, res) => {
 // get all sessions for the logged in user
 // route: GET /api/sessions/my-sessions
 // access: Private
+// has some problem
 exports.getMySessions = async (req, res) => {
     try {
         const sessions = await Session.find({user: req.user.id})
-        .sort({createdAt: -1})
-        
+            .sort({createdAt: -1})
+            .populate("questions");
         res.status(200).json(sessions);
     } catch (error) {
         res.status(500).json({ message: "Server error", success: false });
@@ -60,7 +61,18 @@ exports.getMySessions = async (req, res) => {
 // access: Private
 exports.getSessionById = async (req, res) => {
     try {
-        
+        const session = await Session.findById(req.params.id)
+            .populate({
+                path: "questions",
+                options: { sort: {isPinned: -1, createdAt: 1}}
+            })
+            .exec();
+
+        if (!session) {
+            return res.status(400).json({success: false, message: "session not found"});
+        }
+
+        res.status(200).json({success: true, session})
     } catch (error) {
         res.status(500).json({ message: "Server error", success: false });
     }
@@ -75,6 +87,11 @@ exports.deleteSession = async (req, res) => {
         const session = await Session.findById(req.params.id);
         if (!session) {
             return res.status(404).json({ message: "Session not found" });
+        }
+
+        // check if teh logged in user owns this session
+        if(session.user.toString() !== req.user.id) {
+            return res.status(401).json({message: "not auth"})
         }
         
         // delete linked questions

@@ -1,5 +1,5 @@
 const {GoogleGenAi} = require("@google/genai");
-const {conceptExplanationPromp, questionAnswerPrompt} = require("../utils/prompts");
+const {conceptExplanationPromp, questionAnswerPrompt, conceptExplainPrompt} = require("../utils/prompts");
 
 const ai = new GoogleGenAi({apiKey: process.env.GEMINI_API_KEY});
 
@@ -49,7 +49,31 @@ const generateInterviewQuestions = async (req, res) => {
 
 const generateConceptExplanation = async (req, res) => {
     try {
-        
+        const {question} = req.body;
+
+        if(!question) {
+            return res.status(400).json({message: "missing required fields"});
+        }
+
+        const prompt = conceptExplainPrompt(question);
+
+        const response = await ai.models.generateContent({
+            model: "gemini-2.0-flash-liter",
+            contents: prompt,
+        })
+
+        let rawtext = response.text;
+
+        // clean it 
+        const cleanedText = rawtext
+        .replace(/^```json\s*/, "")
+        .replace(/```$/,"")
+        .trim();
+
+        // now safe to parse
+        const data = JSON.parse(cleanedText);
+
+        res.status(200).json(data);
     } catch (error) {
         res.status(500).json({
             message: "failed to generate questions",

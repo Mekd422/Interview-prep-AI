@@ -1,7 +1,9 @@
-const {GoogleGenAi} = require("@google/genai");
+require("dotenv").config();
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 const {conceptExplanationPromp, questionAnswerPrompt, conceptExplainPrompt} = require("../utils/prompts");
 
-const ai = new GoogleGenAi({apiKey: process.env.GEMINI_API_KEY});
+
+const ai = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 // generate interview questions and answers using gemeni
 // post /api/ai/generate-questions
@@ -17,21 +19,24 @@ const generateInterviewQuestions = async (req, res) => {
 
         const prompt = questionAnswerPrompt(role, experience, topicstofocus, numberofquestions);
 
-        const response = await ai.models.generateContent({
-            model: "gemini-2.0-flash-lite",
-            contents: prompt,
-        })
+        const model = ai.getGenerativeModel({ model: "gemini-1.5-flash" }); // or "gemini-1.5-pro" if preferred
+        const result = await model.generateContent(prompt);
+        const response = result.response;
+        let rawtext = await response.text();
+      
 
-        let rawtext = response.text;
 
         //clean it
-        const cleanedText = rawtext
-        .replace(/^```json\s*/, "")
-        .replace(/```$/,"")
-        .trim();
+        let cleanedText = rawtext;
+        if (cleanedText.startsWith("```json")) {
+        cleanedText = cleanedText.replace(/^```json\s*/, "").replace(/```$/, "").trim();
+        }
 
-        // now safe to parse
-        const data = JSON.parse(cleanedText);
+        const jsonMatch = cleanedText.match(/(\{[\s\S]*\}|\[[\s\S]*\])/);
+        if (!jsonMatch) {
+        throw new Error("No valid JSON found");
+        }
+        const data = JSON.parse(jsonMatch[0]);
 
         res.status(200).json(data);
     } catch (error) {
@@ -57,21 +62,26 @@ const generateConceptExplanation = async (req, res) => {
 
         const prompt = conceptExplainPrompt(question);
 
-        const response = await ai.models.generateContent({
-            model: "gemini-2.0-flash-liter",
-            contents: prompt,
-        })
+        const model = ai.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-        let rawtext = response.text;
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+
+        const rawtext = await response.text();
 
         // clean it 
-        const cleanedText = rawtext
-        .replace(/^```json\s*/, "")
-        .replace(/```$/,"")
-        .trim();
+        let cleanedText = rawtext;
+        if (cleanedText.startsWith("```json")) {
+        cleanedText = cleanedText.replace(/^```json\s*/, "").replace(/```$/, "").trim();
+        }
 
         // now safe to parse
-        const data = JSON.parse(cleanedText);
+        const jsonMatch = cleanedText.match(/(\{[\s\S]*\}|\[[\s\S]*\])/);
+        if (!jsonMatch) {
+        throw new Error("No valid JSON found");
+        }
+        const data = JSON.parse(jsonMatch[0]);
+
 
         res.status(200).json(data);
     } catch (error) {

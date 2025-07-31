@@ -4,6 +4,8 @@ import { Input } from '../../components/Inputs/Input';
 import { validateEmail } from '../../utils/helper';
 import axiosInstance from '../../utils/axiosInstance';
 import { API_PATHS } from '../../utils/apiPaths';
+import { useContext } from 'react';
+import { UserContext } from '../../context/userContext';
 
 export const Login = ({setCurrentPage}) => {
 
@@ -11,6 +13,8 @@ export const Login = ({setCurrentPage}) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(""); 
   console.log(setError)
+
+  const {updateUser} = useContext(UserContext)
 
   const navigate = useNavigate();
   console.log(navigate)
@@ -42,6 +46,7 @@ export const Login = ({setCurrentPage}) => {
 
       if(token) {
         localStorage.setItem("token", token);
+        updateUser(response.data);
         navigate("/dashboard")
       }
     } catch (error) {

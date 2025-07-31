@@ -4,10 +4,12 @@ import {Dashboard} from './pages/Home/Dashboard';
 import {Toaster} from 'react-hot-toast';
 import  LandingPage from './pages/LandingPage';
 import { InterviewPrep } from './pages/InterviewPrep/InterviewPrep';
+import UserProvider from './context/userContext';
 
 
 export const App = () => {
   return (
+    <UserProvider>
     <div>
     <Router>
       <Routes>
@@ -26,5 +28,6 @@ export const App = () => {
       }
     }/>
     </div>
+    </UserProvider>
   )
 }

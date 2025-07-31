@@ -31,7 +31,7 @@ export const Login = ({setCurrentPage}) => {
 
     //login api call
     try {
-      
+      console.log()
     } catch (error) {
       if(error.response && error.response.message){
         setError(error.response.data.message);

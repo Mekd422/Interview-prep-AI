@@ -6,7 +6,7 @@ const router = express.Router();
 // Session routes
 router.post("/create", protect, createSession);
 router.get("/:id", protect, getSessionById);
-router.get("/my-sessions", protect, getMySessions);
+router.get("/my-sessions", getMySessions);
 router.delete("/:id", protect, deleteSession);
 
 module.exports = router;

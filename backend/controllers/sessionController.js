@@ -3,6 +3,7 @@ const Question = require("../models/Question");
 const user = require("../models/user");
 
 
+
 // create a new session and linked questions
 // route: POST /api/sessions/create
 // access: Private
@@ -46,14 +47,22 @@ exports.createSession = async (req, res) => {
 // access: Private
 // has some problem
 exports.getMySessions = async (req, res) => {
+    console.log("💡 getMySessions called");
     try {
-        const sessions = await Session.find({user: req.user.id})
-            .sort({createdAt: -1})
-            .populate("questions");
+        if (!req.user || !req.user.id) {
+            return res.status(401).json({ message: "Unauthorized", success: false });
+        }
+        console.log("Request user:", req.user);
+
+        const sessions = await Session.find({ user: req.user._id })
+            .sort({ createdAt: -1 })
+            
         res.status(200).json(sessions);
     } catch (error) {
-        res.status(500).json({ message: "Server error", success: false });
-    }
+  console.error("Error in getMySessions:", error.message, error.stack);
+  res.status(500).json({ message: "Server error", success: false, error: error.message });
+}
+
 };
 
 // get session by id with populated questions

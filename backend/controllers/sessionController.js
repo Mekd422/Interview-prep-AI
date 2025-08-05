@@ -49,17 +49,17 @@ exports.createSession = async (req, res) => {
 exports.getMySessions = async (req, res) => {
     console.log("💡 getMySessions called");
     try {
-        if (!req.user || !req.user.id) {
+        if (!req.user || !req.user._id) {
             return res.status(401).json({ message: "Unauthorized", success: false });
         }
         console.log("Request user:", req.user);
 
         const sessions = await Session.find({ user: req.user._id })
             .sort({ createdAt: -1 })
+            .populate("questions")
             
         res.status(200).json(sessions);
     } catch (error) {
-  console.error("Error in getMySessions:", error.message, error.stack);
   res.status(500).json({ message: "Server error", success: false, error: error.message });
 }
 
